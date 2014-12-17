@@ -13,7 +13,7 @@ As the package is not currently released to Packagist, you have to set up the re
         "type": "vcs",
         "url": "https://github.com/henrist/laravel-api-query"
     }
-},
+],
 "require": {
     "henrist/laravel-api-query": "dev-master"
 }
