@@ -4,6 +4,7 @@ use Henrist\LaravelApiQuery\Processors\Filter;
 use Henrist\LaravelApiQuery\Processors\LimitOffset;
 use Henrist\LaravelApiQuery\Processors\Order;
 use Henrist\LaravelApiQuery\Processors\With;
+use Henrist\LaravelApiQuery\Processors\Fields;
 
 use Illuminate\Support\ServiceProvider;
 
@@ -39,6 +40,7 @@ class LaravelApiQueryServiceProvider extends ServiceProvider {
             $aq->addDefaultProcessor(new LimitOffset);
             $aq->addDefaultProcessor(new Order);
             $aq->addDefaultProcessor(new With);
+            $aq->addDefaultProcessor(new Fields);
 
             return $aq;
         });

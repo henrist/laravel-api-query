@@ -11,7 +11,7 @@ class With implements ProcessorInterface {
     /**
      * @override
      */
-    public function process(Handler $apiquery, Request $request)
+    public function processBefore(Handler $apiquery, Request $request)
     {
         if ($request->has('with')) {
             foreach (explode(",", $request->get('with')) as $relation) {
@@ -57,4 +57,6 @@ class With implements ProcessorInterface {
 
         return true;
     }
+
+    public function processAfter(Handler $handler, array &$data) {}
 }

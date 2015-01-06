@@ -74,6 +74,12 @@ Pagination:
 url/to/api?limit=10&offset=10
 ```
 
+Limiting fields:
+```
+url/to/api?fields=id,title
+url/to/api?fields=id,parent.id,children.id,children.title&with=parent,children
+```
+
 ## License
 The MIT License (MIT)
 

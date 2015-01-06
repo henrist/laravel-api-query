@@ -88,9 +88,17 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
     }
 
     /**
+     * Get request
+     */
+    public function getRequest()
+    {
+        return $this->request;
+    }
+
+    /**
      * Process request
      */
-    public function process()
+    public function processBefore()
     {
         // TODO: improve this somehow
         static $processed = false;
@@ -98,8 +106,20 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
         $processed = true;
 
         foreach ($this->processors as $processor) {
-            $processor->process($this, $this->request);
+            $processor->processBefore($this, $this->request);
         }
+    }
+
+    /**
+     * Process end array
+     */
+    public function processAfter($data)
+    {
+        foreach ($this->processors as $processor) {
+            $processor->processAfter($this, $data);
+        }
+
+        return $data;
     }
 
     /**
@@ -119,7 +139,7 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
      */
     public function toArray()
     {
-        $this->process();
+        $this->processBefore();
 
         $count = $this->query->getPaginationCount();
         return [
@@ -128,7 +148,7 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
                 'limit' => $this->query->limit ?: 0,
                 'total' => $count
             ],
-            'result' => $this->builder->get()->toArray()
+            'result' => $this->processAfter($this->builder->get()->toArray())
         ];
     }
 

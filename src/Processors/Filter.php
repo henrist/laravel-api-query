@@ -13,7 +13,7 @@ class Filter implements ProcessorInterface {
     /**
      * @override
      */
-    public function process(Handler $apiquery, Request $request)
+    public function processBefore(Handler $apiquery, Request $request)
     {
         if (!$request->has('filter')) return;
 
@@ -73,4 +73,6 @@ class Filter implements ProcessorInterface {
             $builder->getQuery()->where($field, $operator, $value);
         }
     }
+
+    public function processAfter(Handler $handler, array &$data) {}
 }

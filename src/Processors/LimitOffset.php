@@ -15,7 +15,7 @@ class LimitOffset implements ProcessorInterface {
     /**
      * @override
      */
-    public function process(Handler $apiquery, Request $request)
+    public function processBefore(Handler $apiquery, Request $request)
     {
         if ($request->has('limit')) {
             $apiquery->getQuery()->limit((int)$request->get('limit'));
@@ -29,4 +29,6 @@ class LimitOffset implements ProcessorInterface {
             $apiquery->getQuery()->limit($this->defaultPageLimit);
         }
     }
+
+    public function processAfter(Handler $handler, array &$data) {}
 }

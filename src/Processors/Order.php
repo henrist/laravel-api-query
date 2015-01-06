@@ -10,7 +10,7 @@ class Order implements ProcessorInterface {
     /**
      * @override
      */
-    public function process(Handler $apiquery, Request $request)
+    public function processBefore(Handler $apiquery, Request $request)
     {
         if (!$request->has('order')) return;
 
@@ -35,4 +35,6 @@ class Order implements ProcessorInterface {
             $apiquery->getQuery()->orderBy($order, $dir);
         }
     }
+
+    public function processAfter(Handler $handler, array &$data) {}
 }
