@@ -140,16 +140,21 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
     public function toArray()
     {
         $this->processBefore();
+        $result = $this->processAfter($this->builder->get()->toArray());
 
-        $count = $this->query->getPaginationCount();
-        return [
-            'pagination' => [
-                'offset' => $this->query->offset ?: 0,
-                'limit' => $this->query->limit ?: 0,
-                'total' => $count
-            ],
-            'result' => $this->processAfter($this->builder->get()->toArray())
-        ];
+        if ($this->query->limit) {
+            $count = $this->query->getPaginationCount();
+            return [
+                'pagination' => [
+                    'offset' => $this->query->offset ?: 0,
+                    'limit' => $this->query->limit ?: 0,
+                    'total' => $count
+                ],
+                'result' => $result
+            ];
+        }
+
+        return $result;
     }
 
     /**

@@ -10,7 +10,7 @@ class LimitOffset implements ProcessorInterface {
      *
      * @var integer
      */
-    protected $defaultPageLimit = 10;
+    protected $defaultPageLimit = null;
 
     /**
      * @override
@@ -21,12 +21,12 @@ class LimitOffset implements ProcessorInterface {
             $apiquery->getQuery()->limit((int)$request->get('limit'));
         }
 
-        if ($request->has('offset')) {
-            $apiquery->getQuery()->offset((int)$request->get('offset'));
+        if (!$apiquery->getQuery()->limit && $this->defaultPageLimit) {
+            $apiquery->getQuery()->limit($this->defaultPageLimit);
         }
 
-        if (!$apiquery->getQuery()->limit) {
-            $apiquery->getQuery()->limit($this->defaultPageLimit);
+        if ($request->has('offset') && $apiquery->getQuery()->limit) {
+            $apiquery->getQuery()->offset((int)$request->get('offset'));
         }
     }
 
