@@ -18,7 +18,7 @@ class Filter implements ProcessorInterface {
         if (!$request->has('filter')) return;
 
         foreach (explode(",", $request->get('filter')) as $filter) {
-            if (preg_match('/^(.+)(=|!=|<|>|<=|>=)(.+)$/m', $filter, $match)) {
+            if (preg_match('/^(.+?)(=|!=|<|>|<=|>=)(.+?)$/m', $filter, $match)) {
                 list ($field, $operator, $value) = array_slice($match, 1);
             } else {
                 $fields = explode(":", $filter, 3);
