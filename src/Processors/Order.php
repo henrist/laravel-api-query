@@ -23,16 +23,31 @@ class Order implements ProcessorInterface {
 
         foreach (explode(",", $request->get('order')) as $order) {
             $dir = 'asc';
+            $null = null;
             if ($order[0] == '-') {
                 $dir = 'desc';
                 $order = substr($order, 1);
+            }
+
+            // checking for null values
+            if (preg_match('/^(.*):(NOT)?NULL$/', $order, $matches)) {
+                $null = $matches[2] == '';
+                $order = $matches[1];
             }
 
             if (!in_array($order, $allowedFields)) {
                 throw (new UnknownFieldException("Filter field is not in allowed list"))->setModel($model)->setField($order);
             }
 
-            $apiquery->getQuery()->orderBy($order, $dir);
+            if ($null !== null) {
+                $apiquery->getQuery()->orderByRaw(sprintf('%s is%s null %s',
+                    $apiquery->getQuery()->getGrammar()->wrap($order),
+                    ($null ? '' : ' not'),
+                    $dir
+                ));
+            } else {
+                $apiquery->getQuery()->orderBy($order, $dir);
+            }
         }
     }
 

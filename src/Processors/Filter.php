@@ -22,13 +22,14 @@ class Filter implements ProcessorInterface {
                 list ($field, $operator, $value) = array_slice($match, 1);
             } else {
                 $fields = explode(":", $filter, 3);
-                if (count($fields) != 3) {
+
+                if (count($fields) < 3 && (count($fields) != 2 || in_array($fields[0], ['NULL', 'NOTNULL']))) {
                     throw (new InvalidFilterException('Invalid filter supplied'))->setFilter($filter);
                 }
 
                 $field = $fields[0];
                 $operator = $fields[1];
-                $value = $fields[2];
+                $value = isset($fields[2]) ? $fields[2] : null;
             }
 
             $this->filterField($apiquery->getBuilder(), $field, $operator, $value);
@@ -70,7 +71,13 @@ class Filter implements ProcessorInterface {
                 throw (new UnknownFieldException("Filter field is not in allowed list"))->setModel($model)->setField($field);
             }
 
-            $builder->getQuery()->where($field, $operator, $value);
+            if ($operator == 'NULL') {
+                $builder->getQuery()->whereNull($field);
+            } elseif ($operator == 'NOTNULL') {
+                $builder->getQuery()->whereNotNull($field);
+            } else {
+                $builder->getQuery()->where($field, $operator, $value);
+            }
         }
     }
 
