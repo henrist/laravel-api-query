@@ -6,10 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class InvalidModelException extends ApiQueryException
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
+    protected \Illuminate\Database\Eloquent\Model $model;
 
     /**
      * @return $this

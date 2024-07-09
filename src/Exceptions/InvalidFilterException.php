@@ -4,16 +4,12 @@ namespace Henrist\LaravelApiQuery\Exceptions;
 
 class InvalidFilterException extends ApiQueryException
 {
-    /**
-     * @var string
-     */
-    protected $filter;
+    protected string $filter;
 
     /**
-     * @param  string  $filter
      * @return $this
      */
-    public function setFilter($filter)
+    public function setFilter(string $filter)
     {
         $this->filter = $filter;
 

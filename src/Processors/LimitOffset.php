@@ -10,10 +10,8 @@ class LimitOffset implements ProcessorInterface
     /**
      * Default limit of results
      * TODO: config option?
-     *
-     * @var int
      */
-    protected $defaultPageLimit = null;
+    protected ?int $defaultPageLimit = null;
 
     /**
      * @override

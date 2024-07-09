@@ -6,15 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnknownFieldException extends ApiQueryException
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
+    protected \Illuminate\Database\Eloquent\Model $model;
 
-    /**
-     * @var string
-     */
-    protected $field;
+    protected string $field;
 
     /**
      * @return $this
@@ -27,10 +21,9 @@ class UnknownFieldException extends ApiQueryException
     }
 
     /**
-     * @param  string  $field
      * @return $this
      */
-    public function setField($field)
+    public function setField(string $field)
     {
         $this->field = $field;
 

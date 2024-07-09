@@ -28,13 +28,10 @@ class With implements ProcessorInterface
     /**
      * Check if relations are allowed
      *
-     * @param  string  $relation
-     * @return bool
-     *
      * @throws InvalidModelException
      * @throws UnknownRelationException
      */
-    protected function verifyRelation(Model $model, $relation)
+    protected function verifyRelation(Model $model, string $relation): bool
     {
         if (! ($model instanceof ApiQueryInterface)) {
             throw (new InvalidModelException)->setModel($model);

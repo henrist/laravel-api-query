@@ -18,11 +18,8 @@ class ApiQuery
      * Run a query for a Eloquent Builder model
      *
      * The model must implement ApiQueryInterface
-     *
-     * @param \Illuminate\Database\Eloquent\Builder
-     * @return \Henrist\LaravelApiQuery\Handler
      */
-    public function processCollection(Builder $builder, ?Request $request = null)
+    public function processCollection(Builder $builder, ?Request $request = null): Handler
     {
         $obj = new Handler;
 

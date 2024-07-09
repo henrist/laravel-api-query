@@ -10,15 +10,9 @@ use Illuminate\Http\Request;
 
 class Handler implements \JsonSerializable, Arrayable, Jsonable
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Builder
-     */
-    protected $builder;
+    protected Builder $builder;
 
-    /**
-     * @var \Illuminate\Database\Query\Builder
-     */
-    protected $query;
+    protected \Illuminate\Database\Query\Builder $query;
 
     /**
      * Collection of processors
@@ -27,15 +21,11 @@ class Handler implements \JsonSerializable, Arrayable, Jsonable
 
     /**
      * Request
-     *
-     * @var \Illuminate\Http\Request
      */
-    protected $request;
+    protected Request $request;
 
     /**
      * Set Eloquent Builder
-     *
-     * @param \Illuminate\Database\Eloquent\Builder
      */
     public function setBuilder(Builder $builder)
     {
@@ -45,20 +35,16 @@ class Handler implements \JsonSerializable, Arrayable, Jsonable
 
     /**
      * Get Eloquent Builder
-     *
-     * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function getBuilder()
+    public function getBuilder(): Builder
     {
         return $this->builder;
     }
 
     /**
      * Get query builder
-     *
-     * @return \Illuminate\Database\Query\Builder
      */
-    public function getQuery()
+    public function getQuery(): \Illuminate\Database\Query\Builder
     {
         return $this->query;
     }
@@ -126,20 +112,16 @@ class Handler implements \JsonSerializable, Arrayable, Jsonable
 
     /**
      * Convert the object into something JSON serializable.
-     *
-     * @return array
      */
-    public function jsonSerialize()
+    public function jsonSerialize(): array
     {
         return $this->toArray();
     }
 
     /**
      * Convert the object instance to an array.
-     *
-     * @return array
      */
-    public function toArray()
+    public function toArray(): array
     {
         $this->processBefore();
         $result = $this->processAfter($this->builder->get()->toArray());
@@ -162,10 +144,8 @@ class Handler implements \JsonSerializable, Arrayable, Jsonable
 
     /**
      * Convert the object to its string representation.
-     *
-     * @return string
      */
-    public function __toString()
+    public function __toString(): string
     {
         return $this->toJson();
     }

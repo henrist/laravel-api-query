@@ -6,15 +6,11 @@ interface ApiQueryInterface
 {
     /**
      * Get fields we can use in filtering and selecting
-     *
-     * @return array
      */
-    public function getApiAllowedFields();
+    public function getApiAllowedFields(): array;
 
     /**
      * Get fields we can use as relations
-     *
-     * @return array
      */
-    public function getApiAllowedRelations();
+    public function getApiAllowedRelations(): array;
 }

@@ -6,15 +6,9 @@ use Illuminate\Database\Eloquent\Model;
 
 class UnknownRelationException extends ApiQueryException
 {
-    /**
-     * @var \Illuminate\Database\Eloquent\Model
-     */
-    protected $model;
+    protected \Illuminate\Database\Eloquent\Model $model;
 
-    /**
-     * @var string
-     */
-    protected $relation;
+    protected string $relation;
 
     /**
      * @return $this
@@ -27,10 +21,9 @@ class UnknownRelationException extends ApiQueryException
     }
 
     /**
-     * @param  string  $relation
      * @return $this
      */
-    public function setRelation($relation)
+    public function setRelation(string $relation)
     {
         $this->relation = $relation;
 
