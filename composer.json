@@ -9,8 +9,14 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
-        "illuminate/support": "4.2.*"
+        "php": ">=8.2",
+        "illuminate/database": ">=11",
+        "illuminate/http": ">=11",
+        "illuminate/pagination": ">=11",
+        "illuminate/support": ">=11"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.16"
     },
     "autoload": {
         "psr-4": {
@@ -18,7 +24,14 @@
         }
     },
     "minimum-stability": "stable",
-    "require-dev": {
-        "laravel/pint": "^1.16"
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Henrist\\LaravelApiQuery\\LaravelApiQueryServiceProvider"
+            ],
+            "aliases": {
+                "ApiQuery": "Henrist\\LaravelApiQuery\\ApiQuery"
+            }
+        }
     }
 }

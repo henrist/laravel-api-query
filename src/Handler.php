@@ -3,12 +3,12 @@
 namespace Henrist\LaravelApiQuery;
 
 use Henrist\LaravelApiQuery\Processors\ProcessorInterface;
+use Illuminate\Contracts\Support\Arrayable;
+use Illuminate\Contracts\Support\Jsonable;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Contracts\ArrayableInterface;
-use Illuminate\Support\Contracts\JsonableInterface;
 
-class Handler implements \JsonSerializable, ArrayableInterface, JsonableInterface
+class Handler implements \JsonSerializable, Arrayable, Jsonable
 {
     /**
      * @var \Illuminate\Database\Eloquent\Builder
@@ -145,7 +145,7 @@ class Handler implements \JsonSerializable, ArrayableInterface, JsonableInterfac
         $result = $this->processAfter($this->builder->get()->toArray());
 
         if ($this->query->limit) {
-            $count = $this->query->getPaginationCount();
+            $count = $this->query->getCountForPagination();
 
             return [
                 'pagination' => [

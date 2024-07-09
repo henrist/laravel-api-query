@@ -5,6 +5,7 @@ namespace Henrist\LaravelApiQuery;
 use Henrist\LaravelApiQuery\Processors\ProcessorInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Request as FacadesRequest;
 
 class ApiQuery
 {
@@ -26,7 +27,7 @@ class ApiQuery
         $obj = new Handler;
 
         $obj->setBuilder($builder);
-        $obj->setRequest($request ?: \Request::instance());
+        $obj->setRequest($request ?: FacadesRequest::instance());
         $obj->setProcessors($this->processors);
 
         return $obj;

@@ -23,10 +23,7 @@ class LaravelApiQueryServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
-    {
-        $this->package('henrist/laravel-api-query');
-    }
+    public function boot() {}
 
     /**
      * Register the service provider.
@@ -35,7 +32,7 @@ class LaravelApiQueryServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app['ApiQuery'] = $this->app->share(function ($app) {
+        $this->app->singleton('ApiQuery', function () {
             $aq = new ApiQuery;
 
             $aq->addDefaultProcessor(new Filter);
