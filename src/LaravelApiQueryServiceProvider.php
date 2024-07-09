@@ -1,15 +1,16 @@
-<?php namespace Henrist\LaravelApiQuery;
+<?php
 
+namespace Henrist\LaravelApiQuery;
+
+use Henrist\LaravelApiQuery\Processors\Fields;
 use Henrist\LaravelApiQuery\Processors\Filter;
 use Henrist\LaravelApiQuery\Processors\LimitOffset;
 use Henrist\LaravelApiQuery\Processors\Order;
 use Henrist\LaravelApiQuery\Processors\With;
-use Henrist\LaravelApiQuery\Processors\Fields;
-
 use Illuminate\Support\ServiceProvider;
 
-class LaravelApiQueryServiceProvider extends ServiceProvider {
-
+class LaravelApiQueryServiceProvider extends ServiceProvider
+{
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -22,7 +23,8 @@ class LaravelApiQueryServiceProvider extends ServiceProvider {
      *
      * @return void
      */
-    public function boot() {
+    public function boot()
+    {
         $this->package('henrist/laravel-api-query');
     }
 
@@ -33,7 +35,7 @@ class LaravelApiQueryServiceProvider extends ServiceProvider {
      */
     public function register()
     {
-        $this->app['ApiQuery'] = $this->app->share(function($app) {
+        $this->app['ApiQuery'] = $this->app->share(function ($app) {
             $aq = new ApiQuery;
 
             $aq->addDefaultProcessor(new Filter);
@@ -53,7 +55,6 @@ class LaravelApiQueryServiceProvider extends ServiceProvider {
      */
     public function provides()
     {
-        return array();
+        return [];
     }
-
 }

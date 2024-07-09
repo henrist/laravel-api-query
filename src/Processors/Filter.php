@@ -1,4 +1,6 @@
-<?php namespace Henrist\LaravelApiQuery\Processors;
+<?php
+
+namespace Henrist\LaravelApiQuery\Processors;
 
 use Henrist\LaravelApiQuery\ApiQueryInterface;
 use Henrist\LaravelApiQuery\Exceptions\InvalidFilterException;
@@ -9,19 +11,22 @@ use Henrist\LaravelApiQuery\Handler;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class Filter implements ProcessorInterface {
+class Filter implements ProcessorInterface
+{
     /**
      * @override
      */
     public function processBefore(Handler $apiquery, Request $request)
     {
-        if (!$request->has('filter')) return;
+        if (! $request->has('filter')) {
+            return;
+        }
 
-        foreach (explode(",", $request->get('filter')) as $filter) {
+        foreach (explode(',', $request->get('filter')) as $filter) {
             if (preg_match('/^(.+?)(=|!=|<|>|<=|>=)(.+?)$/m', $filter, $match)) {
-                list ($field, $operator, $value) = array_slice($match, 1);
+                [$field, $operator, $value] = array_slice($match, 1);
             } else {
-                $fields = explode(":", $filter, 3);
+                $fields = explode(':', $filter, 3);
 
                 if (count($fields) < 3 && (count($fields) != 2 || in_array($fields[0], ['NULL', 'NOTNULL']))) {
                     throw (new InvalidFilterException('Invalid filter supplied'))->setFilter($filter);
@@ -39,17 +44,14 @@ class Filter implements ProcessorInterface {
     /**
      * Filter by a specific field
      *
-     * @param Builder $builder
-     * @param $field
-     * @param $operator
-     * @param $value
      * @throws InvalidModelException
      * @throws UnknownFieldException
      * @throws UnknownRelationException
      */
-    protected function filterField(Builder $builder, $field, $operator, $value) {
+    protected function filterField(Builder $builder, $field, $operator, $value)
+    {
         $model = $builder->getModel();
-        if (!($model instanceof ApiQueryInterface)) {
+        if (! ($model instanceof ApiQueryInterface)) {
             throw (new InvalidModelException)->setModel($model);
         }
         $allowedFields = $model->getApiAllowedFields();
@@ -58,8 +60,8 @@ class Filter implements ProcessorInterface {
         // field from relation?
         if (($pos = strpos($field, '.')) !== false) {
             $relation = substr($field, 0, $pos);
-            if (!in_array($relation, $allowedRelations)) {
-                throw (new UnknownRelationException("Relation to filter is not in allowed list"))->setModel($model)->setRelation($relation);
+            if (! in_array($relation, $allowedRelations)) {
+                throw (new UnknownRelationException('Relation to filter is not in allowed list'))->setModel($model)->setRelation($relation);
             }
 
             $relfield = substr($field, $pos + 1);
@@ -67,8 +69,8 @@ class Filter implements ProcessorInterface {
                 $this->filterField($q, $relfield, $operator, $value);
             });
         } else {
-            if (!in_array($field, $allowedFields)) {
-                throw (new UnknownFieldException("Filter field is not in allowed list"))->setModel($model)->setField($field);
+            if (! in_array($field, $allowedFields)) {
+                throw (new UnknownFieldException('Filter field is not in allowed list'))->setModel($model)->setField($field);
             }
 
             if ($operator == 'NULL') {

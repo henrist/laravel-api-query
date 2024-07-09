@@ -1,8 +1,11 @@
-<?php namespace Henrist\LaravelApiQuery\Exceptions;
+<?php
+
+namespace Henrist\LaravelApiQuery\Exceptions;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UnknownFieldException extends ApiQueryException {
+class UnknownFieldException extends ApiQueryException
+{
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
@@ -14,22 +17,23 @@ class UnknownFieldException extends ApiQueryException {
     protected $field;
 
     /**
-     * @param Model $model
      * @return $this
      */
     public function setModel(Model $model)
     {
         $this->model = $model;
+
         return $this;
     }
 
     /**
-     * @param string $field
+     * @param  string  $field
      * @return $this
      */
     public function setField($field)
     {
         $this->field = $field;
+
         return $this;
     }
 }

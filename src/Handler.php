@@ -1,13 +1,15 @@
-<?php namespace Henrist\LaravelApiQuery;
+<?php
+
+namespace Henrist\LaravelApiQuery;
 
 use Henrist\LaravelApiQuery\Processors\ProcessorInterface;
-
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Support\Contracts\JsonableInterface;
-use Illuminate\Support\Contracts\ArrayableInterface;
 use Illuminate\Http\Request;
+use Illuminate\Support\Contracts\ArrayableInterface;
+use Illuminate\Support\Contracts\JsonableInterface;
 
-class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializable {
+class Handler implements \JsonSerializable, ArrayableInterface, JsonableInterface
+{
     /**
      * @var \Illuminate\Database\Eloquent\Builder
      */
@@ -21,7 +23,7 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
     /**
      * Collection of processors
      */
-    protected $processors = array();
+    protected $processors = [];
 
     /**
      * Request
@@ -63,8 +65,6 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
 
     /**
      * Add processor
-     *
-     * @param ProcessorInterface $processor
      */
     public function addProcessor(ProcessorInterface $processor)
     {
@@ -102,7 +102,9 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
     {
         // TODO: improve this somehow
         static $processed = false;
-        if ($processed) return;
+        if ($processed) {
+            return;
+        }
         $processed = true;
 
         foreach ($this->processors as $processor) {
@@ -144,13 +146,14 @@ class Handler implements JsonableInterface, ArrayableInterface, \JsonSerializabl
 
         if ($this->query->limit) {
             $count = $this->query->getPaginationCount();
+
             return [
                 'pagination' => [
                     'offset' => $this->query->offset ?: 0,
                     'limit' => $this->query->limit ?: 0,
-                    'total' => $count
+                    'total' => $count,
                 ],
-                'result' => $result
+                'result' => $result,
             ];
         }
 

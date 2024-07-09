@@ -1,35 +1,36 @@
-<?php namespace Henrist\LaravelApiQuery\Processors;
+<?php
 
-use Henrist\LaravelApiQuery\ApiQueryInterface;
-use Henrist\LaravelApiQuery\Exceptions\InvalidModelException;
-use Henrist\LaravelApiQuery\Exceptions\UnknownRelationException;
+namespace Henrist\LaravelApiQuery\Processors;
+
 use Henrist\LaravelApiQuery\Handler;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-class Fields implements ProcessorInterface {
+class Fields implements ProcessorInterface
+{
     /**
      * @override
      */
     public function processBefore(Handler $apiquery, Request $request) {}
 
-    public function processAfter(Handler $handler, array &$data) {
+    public function processAfter(Handler $handler, array &$data)
+    {
         $request = $handler->getRequest();
         if ($request->has('fields')) {
-            $fields = explode(",", $request->get('fields'));
+            $fields = explode(',', $request->get('fields'));
             foreach ($data as &$item) {
                 $this->intersectFields($fields, $item);
             }
         }
     }
 
-    protected function intersectFields($fields, &$data) {
-        $subfields = array();
+    protected function intersectFields($fields, &$data)
+    {
+        $subfields = [];
 
         foreach ($fields as &$field) {
             $pos = strpos($field, '.');
             if ($pos !== false) {
-                $subfield = substr($field, $pos+1);
+                $subfield = substr($field, $pos + 1);
                 $field = substr($field, 0, $pos);
 
                 $subfields[$field][] = $subfield;

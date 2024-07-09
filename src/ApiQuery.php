@@ -1,15 +1,17 @@
-<?php namespace Henrist\LaravelApiQuery;
+<?php
+
+namespace Henrist\LaravelApiQuery;
 
 use Henrist\LaravelApiQuery\Processors\ProcessorInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class ApiQuery {
-
+class ApiQuery
+{
     /**
      * List of default processors
      */
-    protected $processors = array();
+    protected $processors = [];
 
     /**
      * Run a query for a Eloquent Builder model
@@ -19,7 +21,8 @@ class ApiQuery {
      * @param \Illuminate\Database\Eloquent\Builder
      * @return \Henrist\LaravelApiQuery\Handler
      */
-    public function processCollection(Builder $builder, Request $request = null) {
+    public function processCollection(Builder $builder, ?Request $request = null)
+    {
         $obj = new Handler;
 
         $obj->setBuilder($builder);
@@ -31,12 +34,9 @@ class ApiQuery {
 
     /**
      * Add default processor
-     *
-     * @param ProcessorInterface $processor
      */
     public function addDefaultProcessor(ProcessorInterface $processor)
     {
         $this->processors[] = $processor;
     }
-
 }

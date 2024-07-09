@@ -1,8 +1,11 @@
-<?php namespace Henrist\LaravelApiQuery\Exceptions;
+<?php
+
+namespace Henrist\LaravelApiQuery\Exceptions;
 
 use Illuminate\Database\Eloquent\Model;
 
-class UnknownRelationException extends ApiQueryException {
+class UnknownRelationException extends ApiQueryException
+{
     /**
      * @var \Illuminate\Database\Eloquent\Model
      */
@@ -14,22 +17,23 @@ class UnknownRelationException extends ApiQueryException {
     protected $relation;
 
     /**
-     * @param Model $model
      * @return $this
      */
     public function setModel(Model $model)
     {
         $this->model = $model;
+
         return $this;
     }
 
     /**
-     * @param string $relation
+     * @param  string  $relation
      * @return $this
      */
     public function setRelation($relation)
     {
         $this->relation = $relation;
+
         return $this;
     }
 }

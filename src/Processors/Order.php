@@ -1,4 +1,6 @@
-<?php namespace Henrist\LaravelApiQuery\Processors;
+<?php
+
+namespace Henrist\LaravelApiQuery\Processors;
 
 use Henrist\LaravelApiQuery\ApiQueryInterface;
 use Henrist\LaravelApiQuery\Exceptions\InvalidModelException;
@@ -6,22 +8,25 @@ use Henrist\LaravelApiQuery\Exceptions\UnknownFieldException;
 use Henrist\LaravelApiQuery\Handler;
 use Illuminate\Http\Request;
 
-class Order implements ProcessorInterface {
+class Order implements ProcessorInterface
+{
     /**
      * @override
      */
     public function processBefore(Handler $apiquery, Request $request)
     {
-        if (!$request->has('order')) return;
+        if (! $request->has('order')) {
+            return;
+        }
 
         $model = $apiquery->getBuilder()->getModel();
-        if (!($model instanceof ApiQueryInterface)) {
+        if (! ($model instanceof ApiQueryInterface)) {
             throw (new InvalidModelException)->setModel($model);
         }
 
         $allowedFields = $model->getApiAllowedFields();
 
-        foreach (explode(",", $request->get('order')) as $order) {
+        foreach (explode(',', $request->get('order')) as $order) {
             $dir = 'asc';
             $null = null;
             if ($order[0] == '-') {
@@ -35,8 +40,8 @@ class Order implements ProcessorInterface {
                 $order = $matches[1];
             }
 
-            if (!in_array($order, $allowedFields)) {
-                throw (new UnknownFieldException("Filter field is not in allowed list"))->setModel($model)->setField($order);
+            if (! in_array($order, $allowedFields)) {
+                throw (new UnknownFieldException('Filter field is not in allowed list'))->setModel($model)->setField($order);
             }
 
             if ($null !== null) {

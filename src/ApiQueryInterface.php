@@ -1,6 +1,9 @@
-<?php namespace Henrist\LaravelApiQuery;
+<?php
 
-interface ApiQueryInterface {
+namespace Henrist\LaravelApiQuery;
+
+interface ApiQueryInterface
+{
     /**
      * Get fields we can use in filtering and selecting
      *

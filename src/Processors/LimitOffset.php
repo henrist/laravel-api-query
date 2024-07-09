@@ -1,14 +1,17 @@
-<?php namespace Henrist\LaravelApiQuery\Processors;
+<?php
+
+namespace Henrist\LaravelApiQuery\Processors;
 
 use Henrist\LaravelApiQuery\Handler;
 use Illuminate\Http\Request;
 
-class LimitOffset implements ProcessorInterface {
+class LimitOffset implements ProcessorInterface
+{
     /**
      * Default limit of results
      * TODO: config option?
      *
-     * @var integer
+     * @var int
      */
     protected $defaultPageLimit = null;
 
@@ -18,15 +21,15 @@ class LimitOffset implements ProcessorInterface {
     public function processBefore(Handler $apiquery, Request $request)
     {
         if ($request->has('limit')) {
-            $apiquery->getQuery()->limit((int)$request->get('limit'));
+            $apiquery->getQuery()->limit((int) $request->get('limit'));
         }
 
-        if (!$apiquery->getQuery()->limit && $this->defaultPageLimit) {
+        if (! $apiquery->getQuery()->limit && $this->defaultPageLimit) {
             $apiquery->getQuery()->limit($this->defaultPageLimit);
         }
 
         if ($request->has('offset') && $apiquery->getQuery()->limit) {
-            $apiquery->getQuery()->offset((int)$request->get('offset'));
+            $apiquery->getQuery()->offset((int) $request->get('offset'));
         }
     }
 
